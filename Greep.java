@@ -10,7 +10,6 @@ public class Greep extends Creature
 {
     // Remember: you cannot extend the Greep's memory. So:
     // no additional fields (other than final fields) allowed in this class!
-    
     /**
      * Default constructor for testing purposes.
      */
@@ -34,18 +33,41 @@ public class Greep extends Creature
     {
         super.act();   // do not delete! leave as first statement in act().
         if (carryingTomato()) {
+            spit("red");
+            if(atWater())
+            {
+                spit("orange");
+                turn(75);
+                move();
+            }
             if (atShip()) {
                 dropTomato();
+                turn(135);
+                spit("red");
             }
             else {
                 turnHome();
                 move();
+                spit("Red");
             }
         }
         else {
-            move();
             checkFood();
         }
+            if(atWater())
+            {   
+                spit("orange");
+                turn(75);
+                move();
+            }
+            if(isAtEdge())
+            {
+                turn(75);
+            }
+            if(isTouching(Paint.class) || isTouching(Creature.class))
+            {   
+                move();
+            }
     }
     
     /**
@@ -57,17 +79,22 @@ public class Greep extends Creature
         TomatoPile tomatoes = (TomatoPile) getOneIntersectingObject(TomatoPile.class);
         if (tomatoes != null) {
             loadTomato();
+            spit("red");
             // Note: this attempts to load a tomato onto *another* Greep. It won't
             // do anything if we are alone here.
         }
+        else
+        {
+            move();
+        }
     }
-
+    
     /**
      * This method specifies the name of the author (for display on the result board).
      */
     public static String getAuthorName()
     {
-        return "Anonymous";  // write your name here!
+        return "Greeps Group 5";  // write your name here!
     }
 
     /**
